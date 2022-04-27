@@ -1,6 +1,9 @@
 import { Chart, registerables } from 'chart.js';
 import { juegosGanados } from './components';
 
+
+const generarGrafica = document.querySelector(".button__grafica");
+
 Chart.register( ...registerables )
 
 let chart
@@ -26,6 +29,11 @@ const config = {
 }
 
 
-export const renderChart = () => {
+const renderChart = () => {
    chart = new Chart( context, config );
 }
+
+
+generarGrafica.addEventListener("click", () => {
+    renderChart();
+})

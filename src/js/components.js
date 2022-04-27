@@ -1,13 +1,14 @@
 import { Chart, registerables } from 'chart.js';
 import { Card } from '../classes/card.class';
 import { numeroCarta, tipoCarta } from './MonteCarlo';
-Chart.register( ...registerables )
 
+Chart.register( ...registerables )
 import '../css/components.css';
 
+
 // Referencia a donde se ponen las cartas y donde se introduce el numero de simulaciones
-const cardsGrid = document.querySelector(".center");
-const inputSim  = document.querySelector(".inputSimulaciones");
+const divCards = document.querySelector(".show__cards");
+const inputSim = document.querySelector(".inputSimulaciones");
 
 
 // Lugares de los 4 jugadores
@@ -16,11 +17,17 @@ const player2 = document.querySelector(".two");
 const player3 = document.querySelector(".three");
 const player4 = document.querySelector(".four");
 
-// Puntajes de los jugadores
+// Puntajes de los jugadores de las manos
 const puntajeP1 = document.querySelector(".p1");
 const puntajeP2 = document.querySelector(".p2");
 const puntajeP3 = document.querySelector(".p3");
 const puntajeP4 = document.querySelector(".p4");
+
+// Puntajes de los jugadores de los juegos ganados
+const puntajeJuegoP1 = document.querySelector(".p1__game")
+const puntajeJuegoP2 = document.querySelector(".p2__game")
+const puntajeJuegoP3 = document.querySelector(".p3__game")
+const puntajeJuegoP4 = document.querySelector(".p4__game")
 
 console.log( puntajeP1 );
 
@@ -40,49 +47,16 @@ let puntosJugadores   = [0,0,0,0];
 const juegosGanados   = [0,0,0,0];
 let deck;
 
-///////////////////////////////////////
-// const context = document.getElementById('myChart').getContext('2d');
 
-
-// let chart
-
-// let labels = [];
-
-// const data = {
-//     labels: labels,
-//     datasets: [{
-//         label: 'Simulacion paracaidista',
-//         backgroundColor: 'rgb(255, 99, 132)',
-//         borderColor: 'rgb(255, 99, 132)',
-//         data: juegosGanados,
-//     }]
-// };
-
-// const config = {
-//     type: 'pie',
-//     data: data,
-//     options: {
-//         maintainAspectRatio: false,
-//     }
-// }
-
-
-// export const renderChart = () => {
-//    chart = new Chart( context, config );
-// }
-
-
-
-
-
-////////////////////////////////////////
 
 
 
 const generateCard = () => {
-
-    let carta = numeroCarta();
-    carta    += tipoCarta();
+    let carta;
+    do {
+        carta = numeroCarta();
+        carta    += tipoCarta();
+    } while( !deck.includes( carta ) );
     return carta; 
 
 }
@@ -93,7 +67,6 @@ const colocarNivelCarta = ( carta, i ) => {
     let numeros = parseInt( carta.substring(0, carta.length - 1 ) );
     const letra = carta[ carta.length - 1];
     
-    // console.log( numeros );
 
     if ( letra === "O" ) {
         nivel = 4;
@@ -149,20 +122,26 @@ export const showCard = () => {
 
     const cartas = [];
 
+    while( divCards.firstChild ) {
+        divCards.removeChild( divCards.firstChild );
+    }
+
     for(let i = 0; i < 4; i++) {
             const newCard = document.createElement("img");
             newCard.classList.add("card");
-            newCard.classList.add(`card${ i + 1 }`);
             const carta = generateCard();
 
+            
             deck = deck.filter( ( card ) => card !== carta );
+            console.log( deck.includes( carta ));
+
 
             const objetoCarta = colocarNivelCarta( carta, i );
             cartas.push( objetoCarta );
 
 
             newCard.src   = `../assets/img/${carta}.PNG`;
-            cardsGrid.append( newCard );
+            divCards.append( newCard );
 
     }
 
@@ -201,7 +180,7 @@ const putBackCards = () => {
 
             const backOfTheCard = document.createElement("img");
             backOfTheCard.src   = `../assets/img/back.PNG`;
-            backOfTheCard.classList.add("backcard");
+            backOfTheCard.classList.add("backcards");
 
             switch( i ) {
             case 1:
@@ -228,6 +207,29 @@ export const initGame = () => {
     generateDeck();
 };
 
+const colocarScore = ( empatados ) => {
+
+
+    empatados.forEach( numJugador => {
+        console.log( numJugador );
+        switch( numJugador + 1 ) {
+        case 1:
+            puntajeJuegoP1.textContent =  "P1 = " + JSON.stringify( juegosGanados[ numJugador ] );
+            break;
+        case 2:
+            puntajeJuegoP2.textContent =  "P2 = " + JSON.stringify( juegosGanados[ numJugador ] );
+            break;
+        case 3:
+            puntajeJuegoP3.textContent =  "P3 = " + JSON.stringify( juegosGanados[ numJugador ] );
+            break;
+        case 4:
+            puntajeJuegoP4.textContent =  "P4 = " + JSON.stringify( juegosGanados[ numJugador ] );
+            break;
+        }
+    })
+}
+
+
 const comprobarGanadorJuego = () => {
 
     const empatados = [];
@@ -251,19 +253,23 @@ const comprobarGanadorJuego = () => {
     }
 
     console.log( empatados );
+
+
     return empatados;
 
 }
 
 const cycle = () => {
+
     intervalo = setInterval(() => {
+
         showCard();
-        
         player1.removeChild( player1.firstChild );
         player2.removeChild( player2.firstChild );
         player3.removeChild( player3.firstChild );
         player4.removeChild( player4.firstChild );
-
+       
+        
         iteracion++;
         if ( iteracion === 10 ) {
 
@@ -274,13 +280,13 @@ const cycle = () => {
             empatados.forEach( jugadores => {
                 juegosGanados[ jugadores ] += 1;
             })
+            colocarScore( empatados );
 
             if ( games === cantidadSimulaciones ) {
                 setTimeout( () => {
                     alert("El juego ha acabado!");
                 }, 1000);
-                console.log( juegosGanados );
-                console.log( deck );
+                
                 return;
             }
 
@@ -311,5 +317,47 @@ inputSim.addEventListener('keyup', ( event ) => {
     }
 });
 
+// CODIGO DE LA GRAFICA
+const generarGrafica = document.querySelector(".button__grafica");
+let chart
+
+let labels = ["Jugador 1", "Jugador 2", "Jugador 3", "Jugador 4"];
+
+const data = {
+    labels: labels,
+    datasets: [{
+        label: 'Juego de Cartas',
+        backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(247, 247, 12)',
+            'rgb(54, 255, 0)',
+            'rgb(0, 193, 255)'
+        ],
+        borderColor: 'rgb(255, 99, 132)',
+        data: juegosGanados,
+    }]
+};
+
+const config = {
+    type: 'pie',
+    data: data,
+    options: {
+        maintainAspectRatio: false,
+    }
+}
+
+
+const renderChart = () => {
+   chart = new Chart(document.querySelector(".myChart"), config );
+}
+
+
+generarGrafica.addEventListener("click", () => {
+    document.body.innerHTML = "";
+    const canvas = document.createElement("canvas");
+    canvas.classList.add("myChart");
+    document.body.append( canvas )
+    renderChart();
+})
 
 

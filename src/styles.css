@@ -5,181 +5,100 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    background-image: url("./assets/img/background.jpg");
-    background-size: cover;
-    
-}
 
-.title {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.grid {
-    display: grid;
+.main__container__flex {
+    display: flex;
+    width: 100%;
     height: 100vh;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    grid-template-rows: repeat(3, 33%);
+    outline: 1px solid black;
+}
+
+.backcards__container {
+    width: 45%;
+    height: 100vh;
+    outline: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.div__jugador {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 25%;
+    outline: 1px solid black;
 }
 
 
-.one {
-    margin-left: 50px;
-    margin-top: 55px;
-    grid-column: 2/3;
-    grid-row: 1/3;
-
+.cards__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 55%;
 }
 
-.two {
-    margin-left: 30px;
-    grid-column: 3/3;
-    grid-row: 2/3;
-    
-
-}
-
-.three {
-    margin-top: 85px;
-    margin-left: 35px;
-    grid-column: 2/3;
-    grid-row: 3/3;
-   
-}
-
-.four {
-    margin-left: 150px;
-    grid-column: 1/3;
-    grid-row: 2/3;
-    
-}
-
-.one,
-.two,
-.three,
-.four {
-    width: 300px;
-    height: 300px;
+.show__cards {
+    height: 50%;
     display: flex;
     justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-
-
-.center {
-    margin: -20px 10px 10px 10px;
-    grid-column: 2/3;
-    grid-row: 2/3;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* gap: px; */
-    grid-template-rows: repeat(3, 1fr);
-    
-}
-
-.card1 {
-    grid-column: 2/3;;
-    grid-row: 1/3;
-}
-
-.card2 {
-    grid-column: 3/3;
-    grid-row: 2/3;
-}
-
-.card3 {
-    grid-column: 1/3;
-    grid-row: 2/3;
-}
-
-.card4 {
-    grid-column: 2/3;
-    grid-row: 3/3;
-}
-
-.cards {
-    grid-column: 2/3;
-    grid-row: 2/3;
+    align-items: center;
     
 }
 
 .card {
-
-    height: 150px;
-    width: 120px;
-    
+    height: 60%;
+    width: 20%;
 }
 
-.scores {
-    grid-column: 3/3;
-    margin: 5px;
+.backcards {
+    margin-left: -50px;
+    width: 15%;
+}
+
+.scores__container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: 25%;
+    width: 100%;
+}
+
+.games__container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: 25%;
+    width: 100%;
+
+}
+.title__scores {
+    width: 100%;
+    height: 5%;
 }
 
 h3 {
-    margin: 5px;
+    margin-top: 5px;
+    text-align: center;
 }
 
-
-.backcard {
-    margin-left: -70px;
-    width: 100px;
-    height: 150px;
+.title {
+    text-align: center;
 }
 
 .inputSimulaciones {
     display: block;
     margin: 0 auto;
-    margin-bottom: 15px;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
 }
 
-.image {
-    height: 100vh;
-    width: 100%;
-    object-fit: cover;
+strong {
+    font-size: 1.2em;
 }
 
-@media screen and (max-width: 1024px) {
-    .backcard {
-        width: 70px;
-    }
-
-
-    .three {
-        margin-top: 5px;
-    }
-    
-    .card {
-        height: 100px;
-    }
-
-    .card1 {
-        margin-bottom: 35px;
-    }
-
-    .card4 {
-       margin-bottom: 30px;
-    }
-
-    .card3 {
-        margin-left: -50px;
-    }
-
-    .one {
-        margin-top: 1px;
-    }
-
-    .three {
-        margin-top: 30px;
-    }
-
-    .four {
-        margin-left: 1px;
-    }
-    
-} 
+.button__grafica {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 5px;
+}
