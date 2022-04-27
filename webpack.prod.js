@@ -4,7 +4,7 @@ const path                 = require("path");
 const TerserPlugin         = require("terser-webpack-plugin");
 const CssMinimizerPlugin   = require("css-minimizer-webpack-plugin");
 const CopyPlugin           = require("copy-webpack-plugin");
-
+const webpack              = require('webpack');
 
 module.exports = {
     mode: 'production',
