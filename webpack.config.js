@@ -2,6 +2,8 @@ const HtmlWebPackPlugin    = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin           = require("copy-webpack-plugin");
 const path                 = require('path');
+const webpack              = require('webpack');
+
 module.exports = {
     mode: 'development',
     output: {
@@ -54,6 +56,9 @@ module.exports = {
                     to: 'assets/',
                 }
             ]
+        }),
+        new webpack.ProvidePlugin({
+            _: 'underscore'
         })
 
     ],

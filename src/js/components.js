@@ -1,10 +1,11 @@
 import { Chart, registerables } from 'chart.js';
 import { Card } from '../classes/card.class';
 import { numeroCarta, tipoCarta } from './MonteCarlo';
-
-import '../css/components.css';
 Chart.register( ...registerables )
 
+import '../css/components.css';
+
+// Referencia a donde se ponen las cartas y donde se introduce el numero de simulaciones
 const cardsGrid = document.querySelector(".center");
 const inputSim  = document.querySelector(".inputSimulaciones");
 
@@ -15,8 +16,7 @@ const player2 = document.querySelector(".two");
 const player3 = document.querySelector(".three");
 const player4 = document.querySelector(".four");
 
-// Puntajes
-
+// Puntajes de los jugadores
 const puntajeP1 = document.querySelector(".p1");
 const puntajeP2 = document.querySelector(".p2");
 const puntajeP3 = document.querySelector(".p3");
@@ -26,7 +26,7 @@ console.log( puntajeP1 );
 
 
 
-
+// variables controladoras
 let cantidadSimulaciones = 0;
 let iteracion = 0, games = 0;
 let intervalo;
@@ -34,7 +34,7 @@ let intervalo;
 
 console.log( inputSim );
 
-
+// variables para cartas y jugadores
 const letters         = ['O', 'C', 'E', 'P'];
 let puntosJugadores   = [0,0,0,0]; 
 const juegosGanados   = [0,0,0,0];
@@ -78,9 +78,6 @@ let deck;
 ////////////////////////////////////////
 
 
-
-
-// console.log( cardsContainer )
 
 const generateCard = () => {
 
@@ -127,7 +124,6 @@ const encontrarGanadorMano = ( cartas ) => {
 
     puntosJugadores[ cartaMayor.getJugador() - 1 ] += 1;
     
-    // console.log( puntosJugadores );
     switch( cartaMayor.getJugador() ) {
     case 1:
         puntajeP1.textContent =  "P1 = " + JSON.stringify(puntosJugadores[ cartaMayor.getJugador() - 1 ]);
@@ -155,10 +151,9 @@ export const showCard = () => {
             newCard.classList.add(`card${ i + 1 }`);
             const carta = generateCard();
 
-            
+            deck = deck.filter( ( card ) => card !== carta );
 
             const objetoCarta = colocarNivelCarta( carta, i );
-            // console.log( objetoCarta );
             cartas.push( objetoCarta );
 
 
@@ -187,6 +182,8 @@ const generateDeck = () => {
         }
 
     }
+
+    deck = _.shuffle( deck );
     putBackCards();
 
 };
@@ -201,9 +198,6 @@ const putBackCards = () => {
             const backOfTheCard = document.createElement("img");
             backOfTheCard.src   = `../assets/img/back.PNG`;
             backOfTheCard.classList.add("backcard");
-
-            
-
 
             switch( i ) {
             case 1:
@@ -227,9 +221,7 @@ const putBackCards = () => {
 }
 
 export const initGame = () => {
-
     generateDeck();
-
 };
 
 const comprobarGanadorJuego = () => {
@@ -252,10 +244,10 @@ const cycle = () => {
     intervalo = setInterval(() => {
         showCard();
         
-            player1.removeChild( player1.firstChild );
-            player2.removeChild( player2.firstChild );
-            player3.removeChild( player3.firstChild );
-            player4.removeChild( player4.firstChild );
+        player1.removeChild( player1.firstChild );
+        player2.removeChild( player2.firstChild );
+        player3.removeChild( player3.firstChild );
+        player4.removeChild( player4.firstChild );
 
         iteracion++;
         if ( iteracion === 10 ) {
@@ -266,7 +258,7 @@ const cycle = () => {
                     alert("El juego ha acabado!");
                 }, 1000);
                 console.log( juegosGanados );
-                // renderChart();
+                console.log( deck );
                 return;
             }
             iteracion = 0;
