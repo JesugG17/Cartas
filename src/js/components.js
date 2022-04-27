@@ -5,6 +5,10 @@ import { numeroCarta, tipoCarta } from './MonteCarlo';
 Chart.register( ...registerables )
 import '../css/components.css';
 
+// Referencia al boton de la grafica
+const generarGrafica = document.querySelector(".button__grafica");
+
+
 
 // Referencia a donde se ponen las cartas y donde se introduce el numero de simulaciones
 const divCards = document.querySelector(".show__cards");
@@ -286,7 +290,7 @@ const cycle = () => {
                 setTimeout( () => {
                     alert("El juego ha acabado!");
                 }, 1000);
-                
+                generarGrafica.disabled = false;
                 return;
             }
 
@@ -318,7 +322,6 @@ inputSim.addEventListener('keyup', ( event ) => {
 });
 
 // CODIGO DE LA GRAFICA
-const generarGrafica = document.querySelector(".button__grafica");
 let chart
 
 let labels = ["Jugador 1", "Jugador 2", "Jugador 3", "Jugador 4"];
