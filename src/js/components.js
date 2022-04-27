@@ -116,9 +116,13 @@ const encontrarGanadorMano = ( cartas ) => {
     for(let i = 1; i < cartas.length; i++) {
 
         if ( cartas[i].getNivel() > cartaMayor.getNivel() ) {
+
             cartaMayor = cartas[i];
+
         } else if ( cartas[i].getNivel() === cartaMayor.getNivel() && cartas[i].getNumero() > cartaMayor.getNumero() ) {
+
             cartaMayor = cartas[i];
+
         }
     }
 
@@ -226,7 +230,9 @@ export const initGame = () => {
 
 const comprobarGanadorJuego = () => {
 
-    let puntajeMayor = puntosJugadores[0], jugador = "";
+    const empatados = [];
+
+    let puntajeMayor = puntosJugadores[0], jugador = 0;
     for(let i = 1; i < puntosJugadores.length; i++) {
 
         if ( puntosJugadores[i] > puntajeMayor ){ 
@@ -234,9 +240,18 @@ const comprobarGanadorJuego = () => {
             jugador = i;
         }
     }
+    empatados.push( jugador );
+    puntosJugadores[ jugador ] = 0;
 
-    console.log( jugador );
-    return jugador;
+    for(let i = 0; i < puntosJugadores.length; i++) {
+
+        if ( puntosJugadores[i] === puntajeMayor ) {
+            empatados.push( i );
+        }
+    }
+
+    console.log( empatados );
+    return empatados;
 
 }
 
@@ -251,8 +266,15 @@ const cycle = () => {
 
         iteracion++;
         if ( iteracion === 10 ) {
+
             clearInterval( intervalo );
             games++;
+            
+            const empatados = comprobarGanadorJuego();
+            empatados.forEach( jugadores => {
+                juegosGanados[ jugadores ] += 1;
+            })
+
             if ( games === cantidadSimulaciones ) {
                 setTimeout( () => {
                     alert("El juego ha acabado!");
@@ -261,12 +283,11 @@ const cycle = () => {
                 console.log( deck );
                 return;
             }
+
             iteracion = 0;
-            const nJugador = comprobarGanadorJuego();
-            juegosGanados[ nJugador ] += 1;
-            puntosJugadores = puntosJugadores.map( () => {
-                return 0;
-            })
+            puntosJugadores = [0,0,0,0];
+                
+            
             puntajeP1.textContent = "P1 = 0";
             puntajeP2.textContent = "P2 = 0";
             puntajeP3.textContent = "P3 = 0";
